@@ -1,0 +1,129 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: ecs-s3-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes ${REDIS_AUTH_TOKEN:+--requirepass $REDIS_AUTH_TOKEN}
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: ecs-s3-redis-commander
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - REDIS_PASSWORD=${REDIS_AUTH_TOKEN:-}
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: ecs-s3-dynamodb
+    ports:
+      - "8000:8000"
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
+    volumes:
+      - dynamodb-data:/home/dynamodblocal/data
+    networks:
+      - app-network
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: ecs-s3-dynamodb-admin
+    ports:
+      - "8001:8001"
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb-local:8000
+      - AWS_REGION=${AWS_REGION:-ap-south-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-dummy}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-dummy}
+    depends_on:
+      - dynamodb-local
+    networks:
+      - app-network
+
+  api-gateway:
+    build:
+      context: ./apps/api-gateway
+      dockerfile: Dockerfile
+    container_name: ecs-s3-api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
+    depends_on:
+      - product-service
+    networks:
+      - app-network
+
+  product-service:
+    build:
+      context: ./apps/product-service
+      dockerfile: Dockerfile
+    container_name: ecs-s3-product-service
+    ports: []  # Internal only, accessed via API Gateway
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=3000
+      - AWS_REGION=${AWS_REGION:-ap-south-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-dummy}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-dummy}
+      - DYNAMODB_DATABASE_NAME=${DYNAMODB_DATABASE_NAME:-products}
+      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
+      - REDIS_ENABLED=${REDIS_ENABLED:-true}
+      - REDIS_ENDPOINT=redis
+      - REDIS_PORT=6379
+      - REDIS_AUTH_TOKEN=${REDIS_AUTH_TOKEN:-}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - CORS_ORIGIN=*
+      - AUTO_MIGRATE=${AUTO_MIGRATE:-true}
+      - AUTO_SEED=${AUTO_SEED:-true}
+    depends_on:
+      - redis
+      - dynamodb-local
+    volumes:
+      - ./apps/product-service/src:/app/src
+      - ./apps/product-service/package.json:/app/package.json
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: ecs-s3-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:8080}
+      - NODE_ENV=development
+    volumes:
+      - ./apps/frontend/src:/app/src
+      - ./apps/frontend/public:/app/public
+      - ./apps/frontend/index.html:/app/index.html
+      - ./apps/frontend/vite.config.ts:/app/vite.config.ts
+      - ./apps/frontend/tailwind.config.js:/app/tailwind.config.js
+      - ./apps/frontend/postcss.config.js:/app/postcss.config.js
+      - ./apps/frontend/package.json:/app/package.json
+      - ./apps/frontend/package-lock.json:/app/package-lock.json
+      - frontend-node-modules:/app/node_modules
+    depends_on:
+      - api-gateway
+    networks:
+      - app-network
+
+volumes:
+  redis-data:
+  dynamodb-data:
+  frontend-node-modules:
+
+networks:
+  app-network:
+    driver: bridge

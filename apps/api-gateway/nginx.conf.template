@@ -1,0 +1,62 @@
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream product_service {
+        server product-service:3000;
+    }
+
+    server {
+        listen 8080;
+        server_name localhost;
+
+        # Health check endpoint
+        location /health {
+            access_log off;
+            add_header 'Access-Control-Allow-Origin' 'CORS_ORIGIN_PLACEHOLDER' always;
+            add_header Content-Type text/plain always;
+            return 200 "OK\n";
+        }
+
+        # Proxy all API requests to product service
+        location /api/v1/ {
+            # Handle OPTIONS preflight requests
+            if ($request_method = 'OPTIONS') {
+                add_header 'Access-Control-Allow-Origin' 'CORS_ORIGIN_PLACEHOLDER' always;
+                add_header 'Access-Control-Allow-Methods' 'CORS_METHODS_PLACEHOLDER' always;
+                add_header 'Access-Control-Allow-Headers' 'CORS_HEADERS_PLACEHOLDER' always;
+                add_header 'Access-Control-Max-Age' 'CORS_MAX_AGE_PLACEHOLDER' always;
+                add_header 'Content-Length' '0' always;
+                add_header 'Content-Type' 'text/plain' always;
+                return 204;
+            }
+
+            # CORS headers for actual requests
+            add_header 'Access-Control-Allow-Origin' 'CORS_ORIGIN_PLACEHOLDER' always;
+            add_header 'Access-Control-Allow-Methods' 'CORS_METHODS_PLACEHOLDER' always;
+            add_header 'Access-Control-Allow-Headers' 'CORS_HEADERS_PLACEHOLDER' always;
+            add_header 'Access-Control-Max-Age' 'CORS_MAX_AGE_PLACEHOLDER' always;
+
+            proxy_pass http://product_service;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_cache_bypass $http_upgrade;
+            
+            # Timeouts
+            proxy_connect_timeout 60s;
+            proxy_send_timeout 60s;
+            proxy_read_timeout 60s;
+        }
+
+        # Logging
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+    }
+}
+

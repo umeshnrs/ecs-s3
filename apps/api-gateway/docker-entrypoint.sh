@@ -1,0 +1,73 @@
+#!/bin/sh
+set -e
+
+CORS_ORIGIN=${CORS_ORIGIN:-*}
+
+# Generate nginx config with CORS
+cat > /etc/nginx/nginx.conf <<EOF
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream product_service {
+        server product-service:3000;
+    }
+
+    server {
+        listen 8080;
+        server_name localhost;
+
+        location /health {
+            access_log off;
+            add_header 'Access-Control-Allow-Origin' '$CORS_ORIGIN' always;
+            add_header Content-Type text/plain always;
+            return 200 "OK\n";
+        }
+
+        location /api/v1/ {
+            # Handle OPTIONS preflight
+            if (\$request_method = 'OPTIONS') {
+                add_header 'Access-Control-Allow-Origin' '$CORS_ORIGIN' always;
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
+                add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
+                add_header 'Access-Control-Max-Age' '3600' always;
+                add_header 'Content-Length' '0' always;
+                add_header 'Content-Type' 'text/plain' always;
+                return 204;
+            }
+
+            # CORS headers for all requests
+            add_header 'Access-Control-Allow-Origin' '$CORS_ORIGIN' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
+            add_header 'Access-Control-Max-Age' '3600' always;
+
+            # Proxy settings
+            proxy_pass http://product_service;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+            proxy_cache_bypass \$http_upgrade;
+            
+            # Hide backend CORS headers if any
+            proxy_hide_header 'Access-Control-Allow-Origin';
+            proxy_hide_header 'Access-Control-Allow-Methods';
+            proxy_hide_header 'Access-Control-Allow-Headers';
+            
+            proxy_connect_timeout 60s;
+            proxy_send_timeout 60s;
+            proxy_read_timeout 60s;
+        }
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+    }
+}
+EOF
+
+exec nginx -g 'daemon off;'

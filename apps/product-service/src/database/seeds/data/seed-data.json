@@ -1,0 +1,166 @@
+{
+  "products": [
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440001",
+      "name": "iPhone 15 Pro Max",
+      "description": "The most advanced iPhone ever with A17 Pro chip, titanium design, and Pro camera system. Features a 6.7-inch Super Retina XDR display, 48MP main camera, and all-day battery life.",
+      "price": 1199.99,
+      "category": "Electronics",
+      "stock": 45,
+      "images": [
+        "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800",
+        "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=800"
+      ],
+      "brand": "Apple",
+      "sku": "IPH15PM-256GB-NT",
+      "colors": ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"],
+      "sizes": ["256GB", "512GB", "1TB"],
+      "tags": ["premium", "new", "featured"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440002",
+      "name": "Samsung Galaxy S24 Ultra",
+      "description": "Flagship Android smartphone with Snapdragon 8 Gen 3, 200MP camera, S Pen support, and stunning 6.8-inch Dynamic AMOLED 2X display.",
+      "price": 1299.99,
+      "category": "Electronics",
+      "stock": 32,
+      "images": [
+        "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800",
+        "https://images.unsplash.com/photo-1601784551446-20c9e62e26ee?w=800"
+      ],
+      "brand": "Samsung",
+      "sku": "SGS24U-512GB-BLK",
+      "colors": ["Titanium Black", "Titanium Gray", "Titanium Violet", "Titanium Yellow"],
+      "sizes": ["256GB", "512GB", "1TB"],
+      "tags": ["premium", "new", "featured"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440003",
+      "name": "MacBook Pro 16-inch M3 Max",
+      "description": "Powerful laptop with M3 Max chip, 16-inch Liquid Retina XDR display, up to 128GB unified memory, and all-day battery life. Perfect for professionals and creatives.",
+      "price": 3999.99,
+      "category": "Electronics",
+      "stock": 18,
+      "images": [
+        "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=800",
+        "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800"
+      ],
+      "brand": "Apple",
+      "sku": "MBP16-M3MAX-1TB",
+      "colors": ["Space Gray", "Silver"],
+      "sizes": ["1TB", "2TB", "4TB", "8TB"],
+      "tags": ["premium", "bestseller", "featured"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440004",
+      "name": "Nike Air Max 90",
+      "description": "Classic running shoes with visible Air cushioning, durable rubber outsole, and timeless design. Available in multiple colorways for men and women.",
+      "price": 120.00,
+      "category": "Shoes",
+      "stock": 89,
+      "images": [
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+        "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800"
+      ],
+      "brand": "Nike",
+      "sku": "NIKE-AM90-BLK-10",
+      "colors": ["Black", "White", "Red", "Blue"],
+      "sizes": ["7", "7.5", "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12"],
+      "tags": ["bestseller", "trending", "new"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440005",
+      "name": "Bose QuietComfort 45",
+      "description": "Premium noise-cancelling headphones with world-class noise cancellation, balanced audio performance, and up to 24 hours of battery life. Perfect for travel and daily use.",
+      "price": 329.99,
+      "category": "Accessories",
+      "stock": 67,
+      "images": [
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
+        "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800"
+      ],
+      "brand": "Bose",
+      "sku": "BOSE-QC45-BLK",
+      "colors": ["Black", "White Smoke"],
+      "sizes": ["One Size"],
+      "tags": ["premium", "bestseller", "featured"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440006",
+      "name": "Zara Classic Denim Jacket",
+      "description": "Timeless denim jacket with classic fit, button closure, and versatile style. Perfect for layering in any season. Made from premium denim fabric.",
+      "price": 49.99,
+      "category": "Clothing",
+      "stock": 112,
+      "images": [
+        "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800",
+        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800"
+      ],
+      "brand": "Zara",
+      "sku": "ZARA-DENIM-JKT-M",
+      "colors": ["Light Blue", "Dark Blue", "Black"],
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "tags": ["trending", "sale"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440007",
+      "name": "Adidas Ultraboost 23",
+      "description": "Premium running shoes with Boost midsole technology, Primeknit upper, and Continental rubber outsole. Designed for maximum comfort and energy return.",
+      "price": 180.00,
+      "category": "Shoes",
+      "stock": 76,
+      "images": [
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+        "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800"
+      ],
+      "brand": "Adidas",
+      "sku": "ADID-UB23-WHT-10",
+      "colors": ["White", "Black", "Core Black", "Solar Red"],
+      "sizes": ["7", "7.5", "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12"],
+      "tags": ["premium", "bestseller", "new"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440008",
+      "name": "Nike Dri-FIT Training T-Shirt",
+      "description": "Moisture-wicking training t-shirt with breathable fabric, comfortable fit, and modern design. Perfect for workouts and active lifestyle.",
+      "price": 35.00,
+      "category": "Sports & Outdoors",
+      "stock": 156,
+      "images": [
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800"
+      ],
+      "brand": "Nike",
+      "sku": "NIKE-DRI-FIT-TS-M",
+      "colors": ["Black", "White", "Gray", "Navy"],
+      "sizes": ["S", "M", "L", "XL", "XXL"],
+      "tags": ["trending", "sale"],
+      "status": "active"
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440009",
+      "name": "Sony WH-1000XM5",
+      "description": "Industry-leading noise cancellation with premium sound quality, 30-hour battery life, and quick charge. Features LDAC codec support and speak-to-chat technology.",
+      "price": 399.99,
+      "category": "Accessories",
+      "stock": 54,
+      "images": [
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
+        "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800"
+      ],
+      "brand": "Sony",
+      "sku": "SNY-WH1000XM5-BLK",
+      "colors": ["Black", "Silver"],
+      "sizes": ["One Size"],
+      "tags": ["premium", "bestseller", "featured"],
+      "status": "active"
+    }
+  ]
+}
