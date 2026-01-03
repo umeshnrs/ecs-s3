@@ -18,8 +18,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - REDIS_HOSTS=local:redis:6379
-      - REDIS_PASSWORD=${REDIS_AUTH_TOKEN:-}
+      - REDIS_HOSTS=local:redis:6379:0:${REDIS_AUTH_TOKEN:-}
     depends_on:
       - redis
     networks:
