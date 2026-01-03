@@ -5,7 +5,7 @@ services:
     ports:
       - "6379:6379"
     environment:
-      - REDIS_AUTH_TOKEN=${REDIS_AUTH_TOKEN:-}
+      - REDIS_AUTH_TOKEN=${REDIS_AUTH_TOKEN}
     command: sh -c "redis-server --appendonly yes $${REDIS_AUTH_TOKEN:+--requirepass $$REDIS_AUTH_TOKEN}"
     volumes:
       - redis-data:/data
@@ -18,7 +18,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - REDIS_HOSTS=local:redis:6379:0:${REDIS_AUTH_TOKEN:-}
+      - REDIS_HOSTS=local:redis:6379:0:${REDIS_AUTH_TOKEN}
     depends_on:
       - redis
     networks:
@@ -42,9 +42,9 @@ services:
       - "8001:8001"
     environment:
       - DYNAMO_ENDPOINT=http://dynamodb-local:8000
-      - AWS_REGION=${AWS_REGION:-ap-south-1}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-dummy}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-dummy}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     depends_on:
       - dynamodb-local
     networks:
@@ -58,7 +58,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
+      - CORS_ORIGIN=${CORS_ORIGIN}
     depends_on:
       - product-service
     networks:
@@ -71,21 +71,21 @@ services:
     container_name: ecs-s3-product-service
     ports: []  # Internal only, accessed via API Gateway
     environment:
-      - NODE_ENV=${NODE_ENV:-development}
+      - NODE_ENV=${NODE_ENV}
       - PORT=3000
-      - AWS_REGION=${AWS_REGION:-ap-south-1}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-dummy}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-dummy}
-      - DYNAMODB_DATABASE_NAME=${DYNAMODB_DATABASE_NAME:-products}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - DYNAMODB_DATABASE_NAME=${DYNAMODB_DATABASE_NAME}
       - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
-      - REDIS_ENABLED=${REDIS_ENABLED:-true}
-      - REDIS_ENDPOINT=redis
-      - REDIS_PORT=6379
-      - REDIS_AUTH_TOKEN=${REDIS_AUTH_TOKEN:-}
-      - LOG_LEVEL=${LOG_LEVEL:-info}
-      - CORS_ORIGIN=*
-      - AUTO_MIGRATE=${AUTO_MIGRATE:-true}
-      - AUTO_SEED=${AUTO_SEED:-true}
+      - REDIS_ENABLED=${REDIS_ENABLED}
+      - REDIS_ENDPOINT=${REDIS_ENDPOINT}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_AUTH_TOKEN=${REDIS_AUTH_TOKEN}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+      - AUTO_MIGRATE=${AUTO_MIGRATE}
+      - AUTO_SEED=${AUTO_SEED}  
     depends_on:
       - redis
       - dynamodb-local
@@ -103,8 +103,8 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:8080}
-      - NODE_ENV=development
+      - VITE_API_URL=${VITE_API_URL}
+      - NODE_ENV=${NODE_ENV}
     volumes:
       - ./apps/frontend/src:/app/src
       - ./apps/frontend/public:/app/public

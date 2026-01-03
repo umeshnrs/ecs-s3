@@ -4,7 +4,7 @@
 
 set -e  # Exit on error
 
-AWS_ACCOUNT_ID="${1:-727169793160123}"
+AWS_ACCOUNT_ID="${1:-727169793160}"
 AWS_REGION="${2:-ap-south-1}"
 ENVIRONMENT="${3:-prod}"
 IMAGE_TAG="${4:-latest}"
@@ -98,4 +98,3 @@ echo "========================================="
 echo "Product Service: ${PRODUCT_SERVICE_REPO}:${IMAGE_TAG}"
 echo "API Gateway: ${API_GATEWAY_REPO}:${IMAGE_TAG}"
 echo ""
-

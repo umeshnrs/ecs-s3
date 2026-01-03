@@ -104,4 +104,3 @@ echo "========================================="
 echo "API Endpoint: $API_ENDPOINT"
 echo "S3 Bucket: $BUCKET_NAME"
 echo ""
-
