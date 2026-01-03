@@ -4,7 +4,9 @@ services:
     container_name: ecs-s3-redis
     ports:
       - "6379:6379"
-    command: redis-server --appendonly yes ${REDIS_AUTH_TOKEN:+--requirepass $REDIS_AUTH_TOKEN}
+    environment:
+      - REDIS_AUTH_TOKEN=${REDIS_AUTH_TOKEN:-}
+    command: sh -c "redis-server --appendonly yes $${REDIS_AUTH_TOKEN:+--requirepass $$REDIS_AUTH_TOKEN}"
     volumes:
       - redis-data:/data
     networks:
